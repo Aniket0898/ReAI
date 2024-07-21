@@ -11,6 +11,7 @@ The ReAI System is a web application built with Flask that integrates a Retrieva
 
 ## Setup
 Ensure python version 3 is installed on your machine.
+You should have created acccess keys for AWS IAM user with permission for bedrock access.
 
 First create and activate virtual environment
 ```
@@ -22,11 +23,6 @@ clone github repository and install dependencies
 git clone https://github.com/Aniket0898/ReAI.git
 cd ReAI
 pip install -r requirements.txt
-```
-## configure aws-cli
-You should have created acccess keys an AWS IAM user with permission for bedrock access. Execute command for configuring keys.
-```
-aws configure
 ```
 ## Update .env file
 ```
