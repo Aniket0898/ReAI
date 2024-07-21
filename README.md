@@ -1,6 +1,6 @@
 # ReAI
 ## Overview
-The ReAI System is a web application built with Flask that integrates a Retrieval-Augmented Generation (RAG) model for answering questions. It uses various technologies, including AWS Bedrock to process and respond to user queries. This system is designed to handle both structured and unstructured data efficiently.
+The ReAI System is a web application built with Flask that integrates a Retrieval-Augmented Generation (RAG) model for answering questions. It uses meta Llama3 and cohere embed-english hosted on AWS Bedrock to process and respond to user queries. This system is designed to handle both structured and unstructured data efficiently.
 
 ## Features
 1. Query Classification: Classifies queries into SQL-related or vector store-related.
@@ -11,7 +11,8 @@ The ReAI System is a web application built with Flask that integrates a Retrieva
 
 ## Setup
 Ensure python version 3 is installed on your machine.
-first create and activate virtual environment
+
+First create and activate virtual environment
 ```
 python3 -m venv venv
 source venv/bin/activate
