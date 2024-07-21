@@ -10,11 +10,17 @@ The ReAI System is a web application built with Flask that integrates a Retrieva
 5. File Processing: Processes files from Google Drive, generates embeddings, and loads them into ChromaDB.
 
 ## Setup
-Ensure python version 3 is installed on your machine.
+Ensure python version is installed on your machine.
+first create and activate virtual environment
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+clone github repository and install dependencies
 ```
 git clone https://github.com/Aniket0898/ReAI.git
 cd ReAI
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 ## configure aws-cli
 you should have created acccess keys an AWS IAM user with permission for bedrock access. Execute command for configuring keys.
