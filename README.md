@@ -6,8 +6,8 @@ The ReAI System is a web application built with Flask that integrates a Retrieva
 1. Query Classification: Classifies queries into SQL-related or vector store-related.
 2. SQL Query Generation: Generates SQL queries based on user prompts and retrieves results from a PostgreSQL database.
 3. Natural Language Answering: Converts SQL results into natural language responses using an LLM.
-4. Vector Store Querying: Retrieves relevant documents from a vector store and generates answers based on these documents.
-5. File Processing: Processes files from Google Drive, generates embeddings, and loads them into ChromaDB.
+4. File Processing: Processes files from Google Drive, generates embeddings, and loads them into ChromaDB.
+5. Vector Store Querying: Retrieves relevant documents from a vector store and generates answers based on these documents.
 
 ## Setup
 Ensure python version 3 is installed on your machine.
