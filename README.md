@@ -10,7 +10,7 @@ The ReAI System is a web application built with Flask that integrates a Retrieva
 5. File Processing: Processes files from Google Drive, generates embeddings, and loads them into ChromaDB.
 
 ## Setup
-Ensure python version is installed on your machine.
+Ensure python version 3 is installed on your machine.
 first create and activate virtual environment
 ```
 python3 -m venv venv
