@@ -11,8 +11,6 @@ import os
 import re
 
 
-
-
 app = Flask(__name__)
 load_dotenv()
 
@@ -268,4 +266,5 @@ def cleanup_files(file_paths):
             return (f"Error removing file '{file_path}': {e}")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
