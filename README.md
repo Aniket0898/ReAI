@@ -10,17 +10,17 @@ Vector Store Querying: Retrieves relevant documents from a vector store and gene
 File Processing: Processes files from Google Drive, generates embeddings, and loads them into ChromaDB.
 
 ## Setup
-'''
+Ensure python version 3 is installed on your machine.
+```
 git clone https://github.com/Aniket0898/ReAI.git
 cd ReAI
-pip install -r requirements.txt
-'''
+pip3 install -r requirements.txt
+```
 ## configure aws-cli
 you should have created acccess keys an AWS IAM user with permission for bedrock access. Execute command for configuring keys.
-'''
+```
 aws configure
-'''
-
+```
 ## Update .env file
 - GDRIVE_API_KEY="your_google_apis_key
 - AWS_ACCESS_KEY_ID="your_aws_access_key"
@@ -33,21 +33,26 @@ aws configure
 - POSTGRES_HOST_IP="your_postgres_host_ip"
 - POSTGRES_DB="your_postgres_db_name"
 
+## Run the Application
+Start the Flask application:
+```
+python3 main.py
+```
 ## Endpoints
-/query
-Method: POST
+- /query
+- Method: POST
 
-Description: Receives a user question, classifies the prompt, and routes it to either SQL database querying or vector store querying.
+- Description: Receives a user question, classifies the prompt, and routes it to either SQL database querying or vector store querying.
 
 Request Body:
 {
     "question": "What is the average price of houses with 3 bedrooms?"
 }
 
-/process_files
-Method: POST
+- /process_files
+- Method: POST
 
-Description: Downloads files from Google Drive Folder which has public access, processes them to extract text, generates embeddings, and loads them into ChromaDB.
+- Description: Downloads files from Google Drive Folder which has public access, processes them to extract text, generates embeddings, and loads them into ChromaDB.
 
 Request Body:
 {
