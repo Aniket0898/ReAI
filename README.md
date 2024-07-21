@@ -24,7 +24,7 @@ cd ReAI
 pip install -r requirements.txt
 ```
 ## configure aws-cli
-you should have created acccess keys an AWS IAM user with permission for bedrock access. Execute command for configuring keys.
+You should have created acccess keys an AWS IAM user with permission for bedrock access. Execute command for configuring keys.
 ```
 aws configure
 ```
