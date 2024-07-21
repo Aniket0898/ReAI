@@ -19,12 +19,12 @@ you should have created acccess keys an AWS IAM user with permission for bedrock
 aws configure
 
 # Update .env file
-GDRIVE_API_KEY="your_google_apis_key"
+GDRIVE_API_KEY="your_google_apis_key
 AWS_ACCESS_KEY_ID="your_aws_access_key"
 AWS_SECRET_ACCESS_KEY="your_aws_secret_key"
 REGION_NAME="your_aws_region"
 CHROMA_HOST_IP="your_chroma_host_ip"
-CHROMA_PORT="yuor_chroma_host_port"
+CHROMA_PORT="your_chroma_host_port"
 POSTGRES_USER="your_postgres_db_username"
 POSTGRES_PASSWORD="your_postgres_db_password"
 POSTGRES_HOST_IP="your_postgres_host_ip"
