@@ -45,16 +45,19 @@ python3 main.py
 - Description: Receives a user question, classifies the prompt, and routes it to either SQL database querying or vector store querying.
 
 Request Body:
+```
 {
     "question": "What is the average price of houses with 3 bedrooms?"
 }
-
+```
 - /process_files
 - Method: POST
 
 - Description: Downloads files from Google Drive Folder which has public access, processes them to extract text, generates embeddings, and loads them into ChromaDB.
 
 Request Body:
+```
 {
     "folder_url": "https://drive.google.com/drive/folders/folder-id"
 }
+```
