@@ -48,5 +48,5 @@ Description: Downloads files from Google Drive Folder which has public access, p
 
 Request Body:
 {
-    "folder_url": "https://drive.google.com/drive/folders/<folder-id>"
+    "folder_url": "https://drive.google.com/drive/folders/folder-id"
 }
