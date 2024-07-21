@@ -11,17 +11,14 @@ class FileHandler:
   """
   A class for downloading Google Drive files, extracting text, and creating Document objects.
   """
-
   def __init__(self, api_key):
     self.api_key = api_key
 
   def process_files(self, folder_url):
     """
     Downloads files from a Google Drive folder, extracts text, and returns a list of Document objects.
-
     Args:
         folder_url: The URL of the Google Drive folder.
-
     Returns:
         A list of Document objects.
     """
@@ -34,14 +31,11 @@ class FileHandler:
   def download_files(self, folder_url):
     """
     Downloads files from a Google Drive folder and stores them in a temporary directory.
-
     Args:
         folder_url: The URL of the Google Drive folder.
-
     Returns:
         A list of downloaded file paths.
     """
-
     folder_id = folder_url.split('/')[-1]
     endpoint = f"https://www.googleapis.com/drive/v3/files?q='{folder_id}' in parents&key={self.api_key}"
     response = requests.get(endpoint)
@@ -71,14 +65,11 @@ class FileHandler:
   def load_documents(self, file_paths):
     """
     Loads documents from the given file paths and extracts text.
-
     Args:
         file_paths: A list of file paths.
-
     Returns:
         A list of Document objects.
     """
-
     documents = []
     for file_path in file_paths:
       try:
