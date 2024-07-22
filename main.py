@@ -25,7 +25,7 @@ POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 POSTGRES_HOST_IP = os.getenv('POSTGRES_HOST_IP')
 POSTGRES_DB = os.getenv('POSTGRES_DB')
 
-# Define AWS credentials (replace with your actual credentials or secure storage)
+# Define AWS credentials
 os.environ['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
 os.environ['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
 
