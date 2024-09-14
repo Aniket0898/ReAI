@@ -1,17 +1,18 @@
 # import libraries
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from langchain_aws import BedrockLLM, BedrockEmbeddings
 from sqlalchemy import create_engine, text
 from langchain.prompts import PromptTemplate
-from langchain_aws import BedrockLLM
 from dotenv import load_dotenv
 import chromadb
 from file_handler import FileHandler
 import os
 import re
 
-
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes and origins
+
 load_dotenv()
 
 GDRIVE_API_KEY = os.getenv('GDRIVE_API_KEY')
@@ -25,7 +26,8 @@ POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 POSTGRES_HOST_IP = os.getenv('POSTGRES_HOST_IP')
 POSTGRES_DB = os.getenv('POSTGRES_DB')
 
-# Define AWS credentials
+print(POSTGRES_DB)
+# Define AWS credentials (replace with your actual credentials or secure storage)
 os.environ['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
 os.environ['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
 
@@ -59,7 +61,7 @@ def classify_and_route_prompt(prompt):
     # Check if prompt contains any SQL-related keywords
     if any(keyword in prompt.lower() for keyword in sql_keywords):
         # Route to SQL database query
-        return query_sql_database(prompt)
+        return query_sql_database(prompt), None
     else:
         # Route to vector store
         return vector_store(prompt)
@@ -120,7 +122,7 @@ def generate_sql_query_from_prompt(prompt):
         Question: {question}
         SQL Query:
         """
-    human_message = [{"type": "text", "text": prompt}]
+    human_message = [{"type": "text", "text": prompt}] 
 
     llm_template = [
         ("system", system_message),
@@ -162,7 +164,7 @@ def generate_sql_answer(question, query, result):
 
     return response
 
-# Function to query the vector store (placeholder)
+# Function to query the vector store
 def vector_store(prompt):
     # Generate embeddings for the user question
     question_embedding = embed_model.embed_query(prompt)
@@ -198,7 +200,7 @@ def vector_store(prompt):
     # Generate the answer with the LLM
     response = llm.invoke(input=formatted_prompt)
 
-    return response
+    return response, metadatas
 
 @app.route('/query', methods=['POST'])
 def query():
@@ -206,9 +208,9 @@ def query():
     user_question = data.get('question', '')
 
     # Classify and route the user question
-    response = classify_and_route_prompt(user_question)
+    response, metadatas = classify_and_route_prompt(user_question)
 
-    return jsonify({'response': response})
+    return jsonify({'response': response, 'metadata': metadatas})
 
 # Route to download, load, and generate embeddings and loading to chromadb for Google Drive files
 @app.route('/process_files', methods=['POST'])
@@ -223,48 +225,12 @@ def process_files():
     # Create text documents with required metadata from documents list
     text_documents = [{'id': doc.id_, 'metadata': doc.metadata, 'text': doc.text} for doc in documents]
 
-    # Generating embeddings for text documents with embedding model and loading to ChromaDB with text content and metadata
-    batch_size = 1
-    max_length = 2048  # Maximum length for cohere embedding model
-    all_text_content = []
-    all_embeddings = []
-    all_metadata = []
+    # Generating embeddings for text documents with embedding model and loading to ChromaDB
+    embeddings = embed_model.embed_documents([doc['text'] for doc in text_documents])
+    for doc, embedding in zip(text_documents, embeddings):
+        chroma_collection.add_document(doc['id'], embedding, doc['metadata'])
 
-    def chunk_text(text, max_length):
-        """Split text into chunks of max_length."""
-        return [text[i:i + max_length] for i in range(0, len(text), max_length)]
-
-    for i in range(0, len(text_documents), batch_size):
-        text_batch = [doc['text'] for doc in text_documents[i:i + batch_size]]
-        batch_metadata = [{k: v for k, v in doc['metadata'].items() if v is not None} for doc in text_documents[i:i + batch_size]]
-
-        # Split each document in the batch into chunks
-        chunked_texts = []
-        chunked_metadata = []  # To store metadata for each chunk
-        for text, metadata in zip(text_batch, batch_metadata):
-            chunks = chunk_text(text, max_length)
-            chunked_texts.extend(chunks)
-            chunked_metadata.extend([metadata] * len(chunks))  # Duplicate metadata for each chunk
-
-        # Generate embeddings for the chunks
-        batch_embeddings = embed_model.embed_documents(chunked_texts)
-        all_embeddings.extend(batch_embeddings)
-        all_text_content.extend(chunked_texts)
-        all_metadata.extend(chunked_metadata)
- 
-    # Insert document into collection with embeddings and metadata
-    ids = [str(i) for i in range(len(all_embeddings))]
-    chroma_collection.add(ids=ids, embeddings=all_embeddings, documents=all_text_content, metadatas=all_metadata)
-
-    return jsonify({'message': 'Files processed and embeddings generated successfully.'})
-
-def cleanup_files(file_paths):
-    for file_path in file_paths:
-        try:
-            os.remove(file_path)
-        except OSError as e:
-            return (f"Error removing file '{file_path}': {e}")
+    return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
-
+    app.run(debug=True)
