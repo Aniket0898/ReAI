@@ -11,7 +11,8 @@ import os
 import re
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes and origins
+allowed_origins = ["http://localhost:3000", "https://promptx-frontend.ve3global.com", "https://promptx-backend.ve3global.com"]
+CORS(app, resources={r"/*": {"origins": allowed_origins}}, supports_credentials=True)
 
 load_dotenv()
 
